@@ -120,6 +120,9 @@ public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
 
     @Override
     public void supprimerProfil(String idUtilisateur) {
+        Utilisateur utilisateur = this.profilRepo.findById(idUtilisateur)
+                .orElseThrow(()-> new ResourceNotFoundException("Utilisateur introuvable"));
+        this.profilRepo.deleteById(idUtilisateur);
 
     }
 }

@@ -33,4 +33,10 @@ public class profilControllers {
     public ResponseEntity<List<UtilisateurResDto>> getAllProfils() {
         return ResponseEntity.status(200).body(this.profilService.listerProfil());
     }
+
+    @DeleteMapping(path = "/supprimer_profile{idUtilisateur}")
+    public ResponseEntity<String> deleteProfil(@PathVariable("idUtilisateur") String idUtilisateur) {
+        this.profilService.supprimerProfil(idUtilisateur);
+        return ResponseEntity.status(200).body("profil successfully deleted");
+    }
 }
