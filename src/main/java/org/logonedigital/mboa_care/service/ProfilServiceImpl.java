@@ -91,9 +91,31 @@ public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
     }
 
 
+    // =========================
+    // LISTER TOUS LES PROFILS
+    // ========================
     @Override
     public List<UtilisateurResDto> listerProfil() {
-        return List.of();
+        List<Utilisateur> utilisateurs = profilRepo.findAll();
+        if (utilisateurs.isEmpty())
+            throw new ResourceNotFoundException("Aucun profil enregistre");
+
+        return profilRepo.findAll()
+                .stream()
+                .map(utilisateur -> UtilisateurResDto.builder()
+                        .idUtilisateur(utilisateur.getIdUtilisateur())
+                        .nomUtilisateur(utilisateur.getNomUtilisateur())
+                        .email(utilisateur.getEmail())
+                        .telephone(utilisateur.getTelephone())
+                        .role(utilisateur.getRole().name())
+                        .ville(utilisateur.getLocation() != null
+                                ? utilisateur.getLocation().getVille()
+                                : null)
+                        .quartier(utilisateur.getLocation() != null
+                                ? utilisateur.getLocation().getQuartier()
+                                : null)
+                        .build()
+                ).toList();
     }
 
     @Override
