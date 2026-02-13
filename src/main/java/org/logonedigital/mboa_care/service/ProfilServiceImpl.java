@@ -1,5 +1,6 @@
 package org.logonedigital.mboa_care.service;
 
+import org.logonedigital.mboa_care.dto.ModificationResDto;
 import org.logonedigital.mboa_care.dto.UtilisateurReqDto;
 import org.logonedigital.mboa_care.dto.UtilisateurResDto;
 import org.logonedigital.mboa_care.entity.Location;
@@ -23,9 +24,7 @@ public class ProfilServiceImpl implements  ProfilService {
         this.profilRepo = profilRepo;
         this.locationRepo = locationRepo;
     }
-//=====================
-    //CREER PROFIL
-//=====================
+
 @Override
 public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
     if (profilRepo.existsByEmail(utilisateurReqDto.getEmail()))
@@ -64,13 +63,30 @@ public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
 }
 
     @Override
-    public void modifierProfil(String idUtilisateur, UtilisateurReqDto utilisateurReqDto) {
+    public void modifierProfil(String idUtilisateur, ModificationResDto modificationResDto) {
+        Utilisateur utilisateur = profilRepo.findById(idUtilisateur)
+                .orElseThrow(() -> new ResourceNotFoundException("Utilisateur n'existe pas"));
+        utilisateur.setNomUtilisateur(modificationResDto.getNomUtilisateur());
+        utilisateur.setEmail(modificationResDto.getEmail());
+        utilisateur.setTelephone(modificationResDto.getTelephone());
 
+        if (utilisateur.getRole() == Role.PATIENT) {
+            if (modificationResDto.getLocation() == null)
+                throw new ResourceNotFoundException("Localisation obligatoire pour un patient");
+            Location location = utilisateur.getLocation();
+
+            if (location == null)
+                location = new Location();
+
+            location.setVille(modificationResDto.getLocation().getVille());
+            location.setQuartier(modificationResDto.getLocation().getQuartier());
+            locationRepo.save(location);
+            utilisateur.setLocation(location);
+        }
+        utilisateur.setUpdatedAt(LocalDate.now());
+        profilRepo.saveAndFlush(utilisateur);
     }
 
-    // ===================
-    // CONSULTER PROFIL
-    // ===================
     @Override
     public UtilisateurResDto consulterProfil(String idUtilisateur) {
         Utilisateur utilisateur = profilRepo.findById(idUtilisateur)
@@ -90,10 +106,6 @@ public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
                 .build();
     }
 
-
-    // =========================
-    // LISTER TOUS LES PROFILS
-    // ========================
     @Override
     public List<UtilisateurResDto> listerProfil() {
         List<Utilisateur> utilisateurs = profilRepo.findAll();
