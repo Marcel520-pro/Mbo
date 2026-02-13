@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "utilisateurs")
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -30,4 +31,5 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
 }
