@@ -7,6 +7,8 @@ import org.logonedigital.mboa_care.service.ProfilService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/profils")
 public class profilControllers {
@@ -25,5 +27,10 @@ public class profilControllers {
     @GetMapping(path = "/consulter_profil{idUtilisateur}")
     public ResponseEntity<UtilisateurResDto> consulterProfil(@PathVariable("idUtilisateur") String idUtilisateur) {
         return ResponseEntity.status(200).body(this.profilService.consulterProfil(idUtilisateur));
+    }
+
+    @GetMapping(path = "/afficher_tous_profiles")
+    public ResponseEntity<List<UtilisateurResDto>> getAllProfils() {
+        return ResponseEntity.status(200).body(this.profilService.listerProfil());
     }
 }
