@@ -32,4 +32,8 @@ public class Utilisateur {
     @Column(nullable = false)
     private Role role;
 
+    @OneToOne
+    @JoinColumn(name = "idLocation")
+    private Location location;
+
 }
