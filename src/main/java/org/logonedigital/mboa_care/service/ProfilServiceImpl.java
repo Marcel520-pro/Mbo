@@ -9,10 +9,12 @@ import org.logonedigital.mboa_care.exception.ResourceExistException;
 import org.logonedigital.mboa_care.exception.ResourceNotFoundException;
 import org.logonedigital.mboa_care.repository.LocationRepo;
 import org.logonedigital.mboa_care.repository.ProfilRepo;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class ProfilServiceImpl implements  ProfilService {
     private final ProfilRepo profilRepo;
     private final LocationRepo  locationRepo;
