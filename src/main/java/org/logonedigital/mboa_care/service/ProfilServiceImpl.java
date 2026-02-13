@@ -68,10 +68,28 @@ public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
 
     }
 
+    // ===================
+    // CONSULTER PROFIL
+    // ===================
     @Override
     public UtilisateurResDto consulterProfil(String idUtilisateur) {
-        return null;
+        Utilisateur utilisateur = profilRepo.findById(idUtilisateur)
+                .orElseThrow(()-> new ResourceNotFoundException("Utilisateur introuvable"));
+        return UtilisateurResDto.builder()
+                .idUtilisateur(utilisateur.getIdUtilisateur())
+                .nomUtilisateur(utilisateur.getNomUtilisateur())
+                .email(utilisateur.getEmail())
+                .telephone(utilisateur.getTelephone())
+                .role(utilisateur.getRole().name())
+                .ville(utilisateur.getLocation() != null
+                        ? utilisateur.getLocation().getVille()
+                        : null)
+                .quartier(utilisateur.getLocation() != null
+                        ? utilisateur.getLocation().getQuartier()
+                        : null)
+                .build();
     }
+
 
     @Override
     public List<UtilisateurResDto> listerProfil() {
