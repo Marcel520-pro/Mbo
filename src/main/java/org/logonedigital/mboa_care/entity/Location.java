@@ -1,4 +1,4 @@
 package org.logonedigital.mboa_care.entity;
 
-public class teleconsultation {
+public class Location {
 }
