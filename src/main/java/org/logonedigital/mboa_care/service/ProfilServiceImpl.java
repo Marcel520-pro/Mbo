@@ -35,6 +35,7 @@ public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
             .email(utilisateurReqDto.getEmail())
             .password(utilisateurReqDto.getMotDePasse())
             .telephone(utilisateurReqDto.getTelephone())
+            .location(Location.builder().build())
             .build();
 
     Role role = Role.valueOf(utilisateurReqDto.getRole().toUpperCase());
@@ -136,5 +137,53 @@ public UtilisateurReqDto creerProfil(UtilisateurReqDto utilisateurReqDto) {
                 .orElseThrow(()-> new ResourceNotFoundException("Utilisateur introuvable"));
         this.profilRepo.deleteById(idUtilisateur);
 
+    }
+
+    @Override
+    public List<UtilisateurResDto> getAllPatients() {
+        List<Utilisateur> patients = profilRepo.findByRole(Role.PATIENT);
+        if (patients.isEmpty())
+            throw new ResourceNotFoundException("Aucun patient enregistre");
+
+        return profilRepo.findByRole(Role.PATIENT)
+                .stream().map(
+                        utilisateur -> UtilisateurResDto.builder()
+                                .idUtilisateur(utilisateur.getIdUtilisateur())
+                                .nomUtilisateur(utilisateur.getNomUtilisateur())
+                                .telephone(utilisateur.getTelephone())
+                                .email(utilisateur.getEmail())
+                                .ville(utilisateur.getLocation() != null
+                                        ? utilisateur.getLocation().getVille()
+                                        : null)
+                                .quartier(utilisateur.getLocation() != null
+                                        ? utilisateur.getLocation().getQuartier()
+                                        : null)
+                                .role(utilisateur.getRole().name())
+                                .build()
+                ).toList();
+    }
+
+    @Override
+    public List<UtilisateurResDto> getAllMedecins() {
+        List<Utilisateur> medecins = profilRepo.findByRole(Role.MEDECIN);
+        if (medecins.isEmpty())
+            throw new ResourceNotFoundException("Aucun medecin enregistre");
+
+        return profilRepo.findByRole(Role.MEDECIN)
+                .stream().map(
+                        utilisateur -> UtilisateurResDto.builder()
+                                .idUtilisateur(utilisateur.getIdUtilisateur())
+                                .nomUtilisateur(utilisateur.getNomUtilisateur())
+                                .telephone(utilisateur.getTelephone())
+                                .email(utilisateur.getEmail())
+                                .ville(utilisateur.getLocation() != null
+                                        ? utilisateur.getLocation().getVille()
+                                        : null)
+                                .quartier(utilisateur.getLocation() != null
+                                        ? utilisateur.getLocation().getQuartier()
+                                        : null)
+                                .role(utilisateur.getRole().name())
+                                .build()
+                ).toList();
     }
 }

@@ -12,4 +12,6 @@ public interface ProfilService {
     UtilisateurResDto consulterProfil(String idUtilisateur);
     List<UtilisateurResDto> listerProfil();
     void supprimerProfil(String idUtilisateur);
+    List<UtilisateurResDto> getAllPatients();
+    List<UtilisateurResDto> getAllMedecins();
 }

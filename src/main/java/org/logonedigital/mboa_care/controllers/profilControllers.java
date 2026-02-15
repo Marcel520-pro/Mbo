@@ -47,4 +47,9 @@ public class profilControllers {
         this.profilService.supprimerProfil(idUtilisateur);
         return ResponseEntity.status(200).body("profil successfully deleted");
     }
+
+    @GetMapping(path = "/afficher_tous_patients")
+    public ResponseEntity<List<UtilisateurResDto>> getAllPatients() {
+        return ResponseEntity.status(200).body(this.profilService.getAllPatients());
+    }
 }
