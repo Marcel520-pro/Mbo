@@ -4,6 +4,10 @@ import ch.qos.logback.core.status.Status;
 
 import java.util.Iterator;
 
+// C’est un type spécial qui limite les valeurs possibles d’une variable à un ensemble prédéfini.
+//
+//On l’utilise quand tu veux qu’une variable ne puisse prendre qu’une liste de valeurs fixes.
+
 public enum Statut implements Status {
     ACCEPTEE,
     EN_ATTENTE,
