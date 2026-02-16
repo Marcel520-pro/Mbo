@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ProfilRepo extends JpaRepository<Utilisateur, String> {
     boolean existsByEmail(String email);
-    List<Utilisateur> findByRole(Role role);
+    List<Utilisateur> findByRole(String nomRole);
 }

@@ -28,8 +28,8 @@ public class Utilisateur {
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "idRole", nullable = false)
     private Role role;
 
     @OneToOne
