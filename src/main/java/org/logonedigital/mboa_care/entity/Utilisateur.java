@@ -17,23 +17,33 @@ import java.time.LocalDate;
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(length = 36, nullable = false, unique = true, updatable = false)
+    @Column(length = 36, nullable = false, updatable = false)
     private String idUtilisateur;
+
+    @Column(nullable = false)
     private String nomUtilisateur;
+
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String telephone;
+
+    private LocalDate dateNaissance;
+
     private LocalDate createdAt;
+
     private LocalDate updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "idRole", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false, updatable = false)
     private Role role;
 
     @OneToOne
-    @JoinColumn(name = "idLocation")
+    @JoinColumn(name = "location_id")
     private Location location;
 
 }

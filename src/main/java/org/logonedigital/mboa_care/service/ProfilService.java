@@ -7,9 +7,9 @@ import org.logonedigital.mboa_care.dto.UtilisateurResDto;
 import java.util.List;
 
 public interface ProfilService {
-    void ajouterPatient(UtilisateurReqDto dto);
-    void ajouterMedecin(UtilisateurReqDto dto);
-    void modifierProfil(String idUtilisateur, UtilisateurReqDto dto);
+    void ajouterPatient(UtilisateurReqDto utilisateurReqDto);
+    void ajouterMedecin(UtilisateurReqDto utilisateurReqDto);
+    void modifierProfil(String idUtilisateur, UtilisateurReqDto utilisateurReqDto);
     UtilisateurResDto consulterProfil(String idUtilisateur);
     List<UtilisateurResDto> listerProfil();
     void supprimerProfil(String idUtilisateur);

@@ -19,4 +19,10 @@ public class profilControllers {
         this.profilService = profilService;
     }
 
+    @PostMapping(path = "ajouter_patient")
+    public ResponseEntity<String> creerPatient(@RequestBody @Valid UtilisateurReqDto utilisateurReqDto) {
+        this.profilService.ajouterPatient(utilisateurReqDto);
+        return ResponseEntity.status(200).body("Patient added successfully");
+    }
+
 }

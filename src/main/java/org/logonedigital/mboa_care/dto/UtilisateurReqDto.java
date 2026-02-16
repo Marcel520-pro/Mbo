@@ -12,14 +12,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UtilisateurReqDto {
-    @NotEmpty(message = "Veillez remplir ce champ")
+    @NotEmpty(message = "Le nom est obligatoire")
     private String nomUtilisateur;
-    @NotEmpty(message = "Veillez remplir ce champ")
-    @Email(message = "format de l'email faux")
+    @NotEmpty(message = "L'email est obligatoire")
+    @Email(message = "Email invalide")
     private String email;
-    @NotEmpty(message = "Veillez remplir ce champ")
+    @NotEmpty(message = "Le téléphone est obligatoire")
     private String telephone;
+    @NotEmpty(message = "Le mot de passe est obligatoire")
     private String motDePasse;
-    private String role;
+    // Date de naissance optionnelle
+    private String dateNaissance;
+    // Pour le patient uniquement
     private LocationReqDto location;
 }
