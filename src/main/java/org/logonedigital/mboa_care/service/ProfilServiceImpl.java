@@ -24,4 +24,44 @@ public class ProfilServiceImpl implements  ProfilService {
         this.profilRepo = profilRepo;
         this.locationRepo = locationRepo;
     }
+
+    @Override
+    public void ajouterPatient(UtilisateurReqDto dto) {
+
+    }
+
+    @Override
+    public void ajouterMedecin(UtilisateurReqDto dto) {
+
+    }
+
+    @Override
+    public void modifierProfil(String idUtilisateur, UtilisateurReqDto dto) {
+
+    }
+
+    @Override
+    public UtilisateurResDto consulterProfil(String idUtilisateur) {
+        return null;
+    }
+
+    @Override
+    public List<UtilisateurResDto> listerProfil() {
+        return List.of();
+    }
+
+    @Override
+    public void supprimerProfil(String idUtilisateur) {
+
+    }
+
+    @Override
+    public List<UtilisateurResDto> getAllPatients() {
+        return List.of();
+    }
+
+    @Override
+    public List<UtilisateurResDto> getAllMedecins() {
+        return List.of();
+    }
 }
