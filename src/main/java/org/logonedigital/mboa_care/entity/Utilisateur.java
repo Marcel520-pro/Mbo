@@ -15,35 +15,25 @@ import java.time.LocalDate;
 @Builder
 @Table(name = "utilisateurs")
 public class Utilisateur {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(length = 36, nullable = false, updatable = false)
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String idUtilisateur;
 
-    @Column(nullable = false)
     private String nomUtilisateur;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String telephone;
-
-    private LocalDate dateNaissance;
-
     private LocalDate createdAt;
-
     private LocalDate updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     @OneToOne
-    @JoinColumn(name = "location_id")
     private Location location;
+
 
 }

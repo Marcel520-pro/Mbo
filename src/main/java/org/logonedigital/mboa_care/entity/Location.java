@@ -6,15 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "locations")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Location {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String idLocation;
     private String ville;
     private String quartier;
