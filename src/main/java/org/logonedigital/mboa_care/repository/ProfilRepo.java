@@ -13,5 +13,4 @@ import java.util.Optional;
 public interface ProfilRepo extends JpaRepository<Utilisateur, String> {
     boolean existsByEmail(String email);
     List<Utilisateur> findByRole(Role role);
-    Optional<Utilisateur> findByEmail(String email);
 }
