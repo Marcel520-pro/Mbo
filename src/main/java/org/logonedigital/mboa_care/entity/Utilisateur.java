@@ -19,10 +19,8 @@ public class Utilisateur {
     private String idUtilisateur;
 
     private String nomUtilisateur;
-
     @Column(nullable = false, unique = true)
     private String email;
-
     private String password;
     private String telephone;
     private LocalDate createdAt;

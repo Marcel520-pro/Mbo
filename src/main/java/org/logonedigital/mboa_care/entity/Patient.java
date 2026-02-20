@@ -1,16 +1,24 @@
 package org.logonedigital.mboa_care.entity;
 
+import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDate;
 
-public class Patient extends Utilisateur{
-    public Patient(String nomUtilisateur, String email, String password,
-                   String telephone, Location location) {
+@Entity
+@Data
+@NoArgsConstructor
+public class Patient extends Utilisateur {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Location location;
+
+    public Patient(String nomUtilisateur, String email, String telephone, String password, Location location) {
         this.setNomUtilisateur(nomUtilisateur);
         this.setEmail(email);
-        this.setPassword(password);
         this.setTelephone(telephone);
-        this.setRole(Role.PATIENT);  // attribution automatique
-        this.setLocation(location);
+        this.setPassword(password);
+        this.setRole(Role.PATIENT);
         this.setCreatedAt(LocalDate.now());
+        this.location = location;
     }
 }
