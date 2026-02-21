@@ -12,6 +12,6 @@ public class UtilisateurResDto {
     private String email;
     private String telephone;
     private String role;
-    private String ville;      // si patient
-    private String quartier;   // si patient
+    private String ville;
+    private String quartier;
 }

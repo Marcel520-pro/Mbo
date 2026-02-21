@@ -8,11 +8,10 @@ import jakarta.validation.constraints.*;
 @AllArgsConstructor
 @Builder
 public class UtilisateurReqDto {
-
     @NotEmpty(message = "Nom obligatoire")
     private String nomUtilisateur;
 
-    @Email(message = "Email incorrect")
+    @Email(message = "format de l'email incorrect")
     @NotEmpty(message = "Email obligatoire")
     private String email;
 
@@ -22,5 +21,5 @@ public class UtilisateurReqDto {
     @NotEmpty(message = "Mot de passe obligatoire")
     private String motDePasse;
 
-    private LocationReqDto location; // uniquement pour patient
+    private LocationReqDto location;
 }

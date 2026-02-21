@@ -25,7 +25,14 @@ public class ProfilServiceImpl implements  ProfilService {
 
     @Override
     public void ajouterPatient(UtilisateurReqDto utilisateurReqDto) {
+        if (profilRepo.existsByEmail(utilisateurReqDto.getEmail())) {
+            throw new ResourceExistException("Email deja utilise.... !");
+        }
 
+        Location location = Location.builder()
+                .ville(utilisateurReqDto.getLocation().getVille())
+                .quartier(utilisateurReqDto.getLocation().getQuartier())
+                .build();
     }
 
     @Override
