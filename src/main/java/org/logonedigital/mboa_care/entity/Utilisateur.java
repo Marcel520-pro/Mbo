@@ -1,5 +1,6 @@
 package org.logonedigital.mboa_care.entity;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,30 +9,28 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Table(name = "utilisateurs")
+@Inheritance(strategy = InheritanceType.JOINED)
+@Entity
 public class Utilisateur {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String idUtilisateur;
-
     private String nomUtilisateur;
-    @Column(nullable = false, unique = true)
     private String email;
-    private String password;
     private String telephone;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
+    private String password;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Location location;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
 }
