@@ -18,6 +18,7 @@ import java.time.LocalDate;
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id_utilisateur")
     private String idUtilisateur;
     private String nomUtilisateur;
     private String email;
