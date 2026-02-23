@@ -1,13 +1,12 @@
 package org.logonedigital.mboa_care.service;
 
-import org.logonedigital.mboa_care.dto.MedecinReqDto;
-import org.logonedigital.mboa_care.dto.MedecinResDto;
-import org.logonedigital.mboa_care.dto.PatientReqDto;
-import org.logonedigital.mboa_care.dto.PatientResDto;
+import org.logonedigital.mboa_care.dto.*;
 import org.logonedigital.mboa_care.entity.Location;
 import org.logonedigital.mboa_care.entity.Medecin;
 import org.logonedigital.mboa_care.entity.Patient;
+import org.logonedigital.mboa_care.entity.Utilisateur;
 import org.logonedigital.mboa_care.exception.ResourceExistException;
+import org.logonedigital.mboa_care.exception.ResourceNotFoundException;
 import org.logonedigital.mboa_care.repository.ProfilRepo;
 import org.springframework.stereotype.Service;
 
@@ -66,12 +65,43 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Override
     public PatientResDto consulterPatient(String idUtilisateur) {
-        return null;
+        Patient patient = (Patient) profilRepo.findById(idUtilisateur)
+                .orElseThrow(()-> new ResourceNotFoundException("Patient Introuvable !"));
+
+        return PatientResDto.builder()
+                .idUtilisateur(patient.getIdUtilisateur())
+                .nomUtilisateur(patient.getNomUtilisateur())
+                .email(patient.getEmail())
+                .telephone(patient.getTelephone())
+                .role(patient.getRole())
+                .location(
+                        LocationDto.builder()
+                                .ville(patient.getLocation().getVille())
+                                .quartier(patient.getLocation().getQuartier())
+                                .build()
+                )
+                .build();
     }
 
     @Override
     public MedecinResDto consulterMedecin(String idUtilisateur) {
-        return null;
+        Medecin medecin = (Medecin) profilRepo.findById(idUtilisateur)
+                .orElseThrow(()-> new ResourceNotFoundException("Medecin Introuvable !"));
+
+        return MedecinResDto.builder()
+                .idUtilisateur(medecin.getIdUtilisateur())
+                .nomUtilisateur(medecin.getNomUtilisateur())
+                .email(medecin.getEmail())
+                .telephone(medecin.getTelephone())
+                .role(medecin.getRole())
+                .specialite(medecin.getSpecialite())
+                .location(
+                        LocationDto.builder()
+                                .ville(medecin.getLocation().getVille())
+                                .quartier(medecin.getLocation().getQuartier())
+                                .build()
+                )
+                .build();
     }
 
     @Override

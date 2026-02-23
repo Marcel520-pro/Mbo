@@ -46,8 +46,8 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    @ExceptionHandler(RoleModificationException.class)
-    public ResponseEntity<ErrorResponse> handleRoleModificationException(RoleModificationException ex){
+    @ExceptionHandler(RoleException.class)
+    public ResponseEntity<ErrorResponse> handleRoleModificationException(RoleException ex){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(
                         ex.getMessage(),
