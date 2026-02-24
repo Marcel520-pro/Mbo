@@ -1,12 +1,10 @@
 package org.logonedigital.mboa_care.service;
 
 import org.logonedigital.mboa_care.dto.*;
-import org.logonedigital.mboa_care.entity.Location;
-import org.logonedigital.mboa_care.entity.Medecin;
-import org.logonedigital.mboa_care.entity.Patient;
-import org.logonedigital.mboa_care.entity.Utilisateur;
+import org.logonedigital.mboa_care.entity.*;
 import org.logonedigital.mboa_care.exception.ResourceExistException;
 import org.logonedigital.mboa_care.exception.ResourceNotFoundException;
+import org.logonedigital.mboa_care.exception.RoleException;
 import org.logonedigital.mboa_care.repository.ProfilRepo;
 import org.springframework.stereotype.Service;
 
@@ -65,8 +63,11 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Override
     public PatientResDto consulterPatient(String idUtilisateur) {
-        Patient patient = (Patient) profilRepo.findById(idUtilisateur)
+        Utilisateur utilisateur =  profilRepo.findById(idUtilisateur)
                 .orElseThrow(()-> new ResourceNotFoundException("Patient Introuvable !"));
+
+        if (!(utilisateur instanceof Patient patient))
+            throw new RoleException("L'utilisateur n'est pas un patient !");
 
         return PatientResDto.builder()
                 .idUtilisateur(patient.getIdUtilisateur())
@@ -85,8 +86,11 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Override
     public MedecinResDto consulterMedecin(String idUtilisateur) {
-        Medecin medecin = (Medecin) profilRepo.findById(idUtilisateur)
+        Utilisateur utilisateur =  profilRepo.findById(idUtilisateur)
                 .orElseThrow(()-> new ResourceNotFoundException("Medecin Introuvable !"));
+
+        if (!(utilisateur instanceof Medecin medecin))
+            throw new RoleException("L'utilisateur n'est pas un medecin");
 
         return MedecinResDto.builder()
                 .idUtilisateur(medecin.getIdUtilisateur())
@@ -106,26 +110,65 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Override
     public List<MedecinResDto> listerMedecin() {
-        return List.of();
+        return profilRepo.findByRole(Role.MEDECIN)
+                .stream()
+                .map(utilisateur -> {
+                    Medecin medecin = (Medecin) utilisateur;
+
+                    return MedecinResDto.builder()
+                            .idUtilisateur(medecin.getIdUtilisateur())
+                            .nomUtilisateur(medecin.getNomUtilisateur())
+                            .email(medecin.getEmail())
+                            .telephone(medecin.getTelephone())
+                            .role(medecin.getRole())
+                            .specialite(medecin.getSpecialite())
+                            .location(
+                                    LocationDto.builder()
+                                            .ville(medecin.getLocation().getVille())
+                                            .quartier(medecin.getLocation().getQuartier())
+                                            .build()
+                            )
+                            .build();
+                }).toList();
+
     }
 
     @Override
     public List<PatientResDto> listerPatients() {
-        return List.of();
+        return profilRepo.findByRole(Role.PATIENT)
+                .stream()
+                .map(utilisateur -> {
+                    Patient patient = (Patient) utilisateur;
+
+                    return PatientResDto.builder()
+                            .idUtilisateur(patient.getIdUtilisateur())
+                            .nomUtilisateur(patient.getNomUtilisateur())
+                            .email(patient.getEmail())
+                            .telephone(patient.getTelephone())
+                            .role(patient.getRole())
+                            .location(
+                                    LocationDto.builder()
+                                            .ville(patient.getLocation().getVille())
+                                            .quartier(patient.getLocation().getQuartier())
+                                            .build()
+                            )
+                            .build();
+                })
+                .toList();
     }
 
     @Override
-    public void modifierPatient(PatientReqDto patientReqDto) {
+    public void modifierPatient(String idUtilisateur, PatientReqDto patientReqDto) {
 
     }
 
     @Override
-    public void modifierMedecin(MedecinReqDto medecinReqDto) {
+    public void modifierMedecin(String idUtilisateur, MedecinReqDto medecinReqDto) {
 
     }
 
     @Override
     public void supprimerProfil(String idUtilisateur) {
-
+        profilRepo.deleteById(idUtilisateur);
     }
 }

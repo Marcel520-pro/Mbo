@@ -15,7 +15,7 @@ public interface ProfilService {
     MedecinResDto consulterMedecin(String idUtilisateur);
     List<MedecinResDto> listerMedecin();
     List<PatientResDto> listerPatients();
-    void modifierPatient(PatientReqDto patientReqDto);
-    void modifierMedecin(MedecinReqDto medecinReqDto);
+    void modifierPatient(String idUtilisateur, PatientReqDto patientReqDto);
+    void modifierMedecin(String idUtilisateur, MedecinReqDto medecinReqDto);
     void supprimerProfil(String idUtilisateur);
 }
