@@ -22,4 +22,5 @@ public class UtilisateurReqDto {
     private String motDePasse;
     private String role;
     private LocationReqDto location;
+
 }
