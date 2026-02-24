@@ -41,15 +41,15 @@ public class ProfilController {
         return ResponseEntity.status(200).body(this.profilService.consulterMedecin(idUtilisateur));
     }
 
-    @GetMapping(path = "/get_all_medecins")
-    ResponseEntity<List<MedecinResDto>> getAllMedecins() {
-        return ResponseEntity.status(201).body(this.profilService.listerMedecin());
-    }
-
-    @GetMapping(path = "/get_all_patients")
-    ResponseEntity<List<PatientResDto>> getAllPatients() {
-        return ResponseEntity.status(200).body(this.profilService.listerPatients());
-    }
+//    @GetMapping(path = "/get_all_medecins")
+//    ResponseEntity<List<MedecinResDto>> getAllMedecins() {
+//        return ResponseEntity.status(201).body(this.profilService.listerMedecin());
+//    }
+//
+//    @GetMapping(path = "/get_all_patients")
+//    ResponseEntity<List<PatientResDto>> getAllPatients() {
+//        return ResponseEntity.status(200).body(this.profilService.listerPatients());
+//    }
 
     @DeleteMapping(path = "/delete_profile")
     ResponseEntity<String> deleteProfil(@RequestParam("idUtilisateur") String idUtilisateur) {
@@ -57,5 +57,16 @@ public class ProfilController {
         return ResponseEntity.status(200).body("Profil has been deleted successfully");
     }
 
+    @PatchMapping(path = "/modify_patient{idUtilisateur}")
+    ResponseEntity<String> modifyPatient(@PathVariable String idUtilisateur,@RequestBody PatientReqDto patientReqDto) {
+        this.profilService.modifierPatient(idUtilisateur,patientReqDto);
+        return ResponseEntity.status(200).body("Patient modification has been successful");
+    }
+
+    @PatchMapping(path = "/modify_medecin{idUtilisateur}")
+    ResponseEntity<String> modifyMedecin(@PathVariable String idUtilisateur,@RequestBody MedecinReqDto medecinReqDto) {
+        this.profilService.modifierMedecin(idUtilisateur,medecinReqDto);
+        return ResponseEntity.status(200).body("Medecin modification has been successful");
+    }
 
 }
