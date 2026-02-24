@@ -3,6 +3,7 @@ package org.logonedigital.mboa_care.service;
 import lombok.extern.slf4j.Slf4j;
 import org.logonedigital.mboa_care.dto.*;
 import org.logonedigital.mboa_care.entity.*;
+import org.logonedigital.mboa_care.entity.Patient;
 import org.logonedigital.mboa_care.exception.ResourceExistException;
 import org.logonedigital.mboa_care.exception.ResourceNotFoundException;
 import org.logonedigital.mboa_care.exception.RoleException;
@@ -144,6 +145,30 @@ public class ProfilServiceImpl implements ProfilService {
 
     @Override
     public Page<PatientResDto> listerPatients(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Utilisateur> utilisateurPage = profilRepo.findByRole(Role.PATIENT, pageable);
+
+        return utilisateurPage.map(
+                utilisateur -> {
+                    if (!(utilisateur instanceof Patient))
+                        return null;
+                    Patient patient = (Patient) utilisateur;
+                    return PatientResDto.builder()
+                            .idUtilisateur(patient.getIdUtilisateur())
+                            .nomUtilisateur(patient.getNomUtilisateur())
+                            .email(patient.getEmail())
+                            .telephone(patient.getTelephone())
+                            .role(patient.getRole())
+                            .location(
+                                    LocationDto.builder()
+                                            .ville(patient.getLocation().getVille())
+                                            .quartier(patient.getLocation().getQuartier())
+                                            .build()
+                            )
+                            .build();
+                }
+
+        );
     }
 
 

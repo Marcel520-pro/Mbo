@@ -5,6 +5,8 @@ import org.logonedigital.mboa_care.dto.MedecinResDto;
 import org.logonedigital.mboa_care.dto.PatientReqDto;
 import org.logonedigital.mboa_care.dto.PatientResDto;
 import org.logonedigital.mboa_care.service.ProfilService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,22 @@ public class ProfilController {
 //    ResponseEntity<List<PatientResDto>> getAllPatients() {
 //        return ResponseEntity.status(200).body(this.profilService.listerPatients());
 //    }
+
+    @GetMapping(path = "/liste_medecins")
+    ResponseEntity<Page<MedecinResDto>> getAllMedecins(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.status(200).body(this.profilService.listerMedecin(page, size));
+    }
+
+    @GetMapping(path = "/liste_patients")
+    ResponseEntity<Page<PatientResDto>> getAllPatients(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        return ResponseEntity.status(200).body(this.profilService.listerPatients(page, size));
+    }
 
     @DeleteMapping(path = "/delete_profile")
     ResponseEntity<String> deleteProfil(@RequestParam("idUtilisateur") String idUtilisateur) {
