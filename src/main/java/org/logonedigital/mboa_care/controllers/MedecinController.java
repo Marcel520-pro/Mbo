@@ -3,28 +3,18 @@ package org.logonedigital.mboa_care.controllers;
 import org.logonedigital.mboa_care.dto.MedecinReqDto;
 import org.logonedigital.mboa_care.dto.MedecinResDto;
 import org.logonedigital.mboa_care.dto.PatientReqDto;
-import org.logonedigital.mboa_care.dto.PatientResDto;
 import org.logonedigital.mboa_care.service.ProfilService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("ap1/v1/profil-utilisateur")
-public class ProfilController {
+public class MedecinController {
     private final ProfilService profilService;
 
-    public ProfilController(ProfilService profilService) {
+    public MedecinController(ProfilService profilService) {
         this.profilService = profilService;
-    }
-
-    @PostMapping(path = "/create_patient")
-    ResponseEntity<String> createPatient(@RequestBody PatientReqDto patientReqDto) {
-        this.profilService.ajouterPatient(patientReqDto);
-        return ResponseEntity.status(201).body("Patient created successfully");
     }
 
     @PostMapping(path = "/create_medecin")
@@ -33,25 +23,10 @@ public class ProfilController {
         return ResponseEntity.status(201).body("Medecin created successfully");
     }
 
-    @GetMapping(path = "/get_patient_by_id{idUtilisateur}")
-    ResponseEntity<PatientResDto> getPatientById(@PathVariable("idUtilisateur") String idUtilisateur) {
-        return ResponseEntity.status(200).body(this.profilService.consulterPatient(idUtilisateur));
-    }
-
     @GetMapping(path = "/get_medecin_by_id{idUtilisateur}")
     ResponseEntity<MedecinResDto> getMedecinById(@PathVariable("idUtilisateur") String idUtilisateur) {
         return ResponseEntity.status(200).body(this.profilService.consulterMedecin(idUtilisateur));
     }
-
-//    @GetMapping(path = "/get_all_medecins")
-//    ResponseEntity<List<MedecinResDto>> getAllMedecins() {
-//        return ResponseEntity.status(201).body(this.profilService.listerMedecin());
-//    }
-//
-//    @GetMapping(path = "/get_all_patients")
-//    ResponseEntity<List<PatientResDto>> getAllPatients() {
-//        return ResponseEntity.status(200).body(this.profilService.listerPatients());
-//    }
 
     @GetMapping(path = "/liste_medecins")
     ResponseEntity<Page<MedecinResDto>> getAllMedecins(
@@ -61,25 +36,13 @@ public class ProfilController {
         return ResponseEntity.status(200).body(this.profilService.listerMedecin(page, size));
     }
 
-    @GetMapping(path = "/liste_patients")
-    ResponseEntity<Page<PatientResDto>> getAllPatients(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ){
-        return ResponseEntity.status(200).body(this.profilService.listerPatients(page, size));
-    }
-
     @DeleteMapping(path = "/delete_profile")
     ResponseEntity<String> deleteProfil(@RequestParam("idUtilisateur") String idUtilisateur) {
         this.profilService.supprimerProfil(idUtilisateur);
         return ResponseEntity.status(200).body("Profil has been deleted successfully");
     }
 
-    @PatchMapping(path = "/modify_patient{idUtilisateur}")
-    ResponseEntity<String> modifyPatient(@PathVariable String idUtilisateur,@RequestBody PatientReqDto patientReqDto) {
-        this.profilService.modifierPatient(idUtilisateur,patientReqDto);
-        return ResponseEntity.status(200).body("Patient modification has been successful");
-    }
+
 
     @PatchMapping(path = "/modify_medecin{idUtilisateur}")
     ResponseEntity<String> modifyMedecin(@PathVariable String idUtilisateur,@RequestBody MedecinReqDto medecinReqDto) {
