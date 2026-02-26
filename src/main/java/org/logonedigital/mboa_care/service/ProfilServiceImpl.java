@@ -212,6 +212,59 @@ public class ProfilServiceImpl implements ProfilService {
     public void supprimerProfil(String idUtilisateur) {
         profilRepo.deleteById(idUtilisateur);
     }
+
+    @Override
+    public Page<MedecinResDto> rechercherParSpecialite(String specialite, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Medecin> medecins = profilRepo
+                .findBySpecialite(specialite, pageable);
+
+        if (medecins.isEmpty())
+            throw new ResourceNotFoundException("Aucun" + specialite + " trouvé");
+
+        return medecins.map(medecin ->
+                MedecinResDto.builder()
+                        .idUtilisateur(medecin.getIdUtilisateur())
+                        .nomUtilisateur(medecin.getNomUtilisateur())
+                        .email(medecin.getEmail())
+                        .telephone(medecin.getTelephone())
+                        .role(medecin.getRole())
+                        .specialite(medecin.getSpecialite())
+                        .location(
+                                LocationDto.builder()
+                                        .ville(medecin.getLocation().getVille())
+                                        .quartier(medecin.getLocation().getQuartier())
+                                        .build()
+                        )
+                        .build());
+    }
+
+    @Override
+    public Page<MedecinResDto> rechercheSpecialisteVille(String specialite, String ville, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Medecin> medecins = profilRepo.findBySpecialiteAndLocation_Ville(specialite, ville, pageable);
+        if (medecins.isEmpty())
+            throw new ResourceNotFoundException("Aucun " + specialite + " trouvé  à " + ville);
+
+        return medecins.map(medecin ->
+                    MedecinResDto.builder()
+                            .idUtilisateur(medecin.getIdUtilisateur())
+                            .nomUtilisateur(medecin.getNomUtilisateur())
+                            .email(medecin.getEmail())
+                            .telephone(medecin.getTelephone())
+                            .role(medecin.getRole())
+                            .specialite(medecin.getSpecialite())
+                            .location(
+                                    LocationDto.builder()
+                                            .ville(medecin.getLocation().getVille())
+                                            .quartier(medecin.getLocation().getQuartier())
+                                            .build()
+                            )
+                            .build()
+                );
+    }
 }
 
 //    @Override

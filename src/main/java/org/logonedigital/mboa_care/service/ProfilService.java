@@ -6,6 +6,7 @@ import org.logonedigital.mboa_care.dto.PatientReqDto;
 import org.logonedigital.mboa_care.dto.PatientResDto;
 import org.logonedigital.mboa_care.entity.Utilisateur;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface ProfilService {
     void modifierPatient(String idUtilisateur, PatientReqDto patientReqDto);
     void modifierMedecin(String idUtilisateur, MedecinReqDto medecinReqDto);
     void supprimerProfil(String idUtilisateur);
+    Page<MedecinResDto> rechercherParSpecialite(String specialite, int page, int size);
+    Page<MedecinResDto> rechercheSpecialisteVille(String specialite, String ville, int page, int size);
 }

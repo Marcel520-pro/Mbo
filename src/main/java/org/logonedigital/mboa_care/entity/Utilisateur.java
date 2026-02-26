@@ -25,7 +25,8 @@ public class Utilisateur {
     private String telephone;
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
+//    @OneToOne(cascade = CascadeType.ALL)
+    @Embedded
     private Location location;
 
     @Enumerated(EnumType.STRING)

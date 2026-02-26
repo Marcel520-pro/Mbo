@@ -50,4 +50,23 @@ public class MedecinController {
         return ResponseEntity.status(200).body("Medecin modification has been successful");
     }
 
+    @GetMapping(path = "/recherche_medecin_par_specialite")
+    ResponseEntity<Page<MedecinResDto>> rechercheMedecinParSpecialite(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String specialite
+    ){
+        return ResponseEntity.status(200).body(this.profilService.rechercherParSpecialite(specialite, page, size));
+    }
+
+    @GetMapping(path = "/recherche_specialiste_par_ville")
+    ResponseEntity<Page<MedecinResDto>> rechercheSpecialisteParVille(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String specialite,
+            @RequestParam String ville
+    ){
+        return ResponseEntity.status(200).body(this.profilService.rechercheSpecialisteVille(specialite, ville, page, size));
+    }
+
 }

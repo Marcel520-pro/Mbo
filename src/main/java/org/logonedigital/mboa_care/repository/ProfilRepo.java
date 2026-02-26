@@ -1,6 +1,7 @@
 package org.logonedigital.mboa_care.repository;
 
 
+import org.logonedigital.mboa_care.entity.Medecin;
 import org.logonedigital.mboa_care.entity.Patient;
 import org.logonedigital.mboa_care.entity.Role;
 import org.logonedigital.mboa_care.entity.Utilisateur;
@@ -13,5 +14,6 @@ import org.springframework.stereotype.Repository;
 public interface ProfilRepo extends JpaRepository<Utilisateur, String> {
     boolean existsByEmail(String email);
     Page<Utilisateur> findByRole(Role role, Pageable pageable);
-//    Page<Patient> findByRole(Role role, Pageable pageable);
+    Page<Medecin> findBySpecialite(String specialite, Pageable pageable);
+    Page<Medecin> findBySpecialiteAndLocation_Ville(String specialite, String ville, Pageable pageable);
 }
