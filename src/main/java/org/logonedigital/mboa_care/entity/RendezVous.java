@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Data
-@Table(name="rendez_vous")
+@Table(name="rendezVous")
 
-public class Rendez_vous {
+public class RendezVous {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
 

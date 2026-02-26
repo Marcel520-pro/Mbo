@@ -9,9 +9,10 @@ import java.util.Iterator;
 //On l’utilise quand tu veux qu’une variable ne puisse prendre qu’une liste de valeurs fixes.
 
 public enum Statut implements Status {
-    ACCEPTEE,
+    PLANNIFIE ,
+    CONFIRME,
     EN_ATTENTE,
-    REFUSEE,
+    ANNULEE,
     TERMINEE,
     EN_COURS;
 
