@@ -37,9 +37,12 @@ public class Pharmaci {
     @OneToMany(mappedBy = "pharmaci")
     private List<Stock> stocks = new ArrayList<>();
 
-
-
-
-
+    public Pharmaci(String nom, String ville, String contact, String quartier, String email) {
+        this.nom = nom;
+        this.ville = ville;
+        this.contact = contact;
+        this.quartier = quartier;
+        this.email = email;
+    }
 }
 

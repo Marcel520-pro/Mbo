@@ -2,6 +2,15 @@ package com.pharmacie.mboacare.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Getter
+@Service
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class PharmaciReqdto {
 
@@ -11,11 +20,10 @@ public class PharmaciReqdto {
     private String nom;
 
     @NotEmpty(message = "veuillez remplir ce champ")
-
+    @Email(message = "cette email est erone")
     private String email;
 
     @NotEmpty(message = "veuillez remplir ce champ")
-    @Email(message = "cette email est erone")
 
     private String ville ;
 
@@ -23,46 +31,12 @@ public class PharmaciReqdto {
 
     private String quartier ;
 
-    public PharmaciReqdto() {
-    }
+    @NotEmpty(message = "veuillez remplir ce champ")
 
-    public PharmaciReqdto(String nom, String email, String ville, String quartier) {
-        this.nom = nom;
-        this.email = email;
-        this.ville = ville;
-        this.quartier = quartier;
-    }
+    private String contact;
 
-    public String getNom() {
-        return nom;
-    }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getVille() {
-        return ville;
-    }
-
-    public void setVille(String ville) {
-        this.ville = ville;
-    }
-
-    public String getQuartier() {
-        return quartier;
-    }
-
-    public void setQuartier(String quartier) {
-        this.quartier = quartier;
-    }
 }
 

@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface PharmaciService {
     void addPharmaci (PharmaciReqdto pharmaciReqdto);
-    PharmaciResdto getById(String id);
-    List<PharmaciResdto> getAll();
-    void update(String id, PharmaciResdto pharmaciResdto);
-    void delete(String id);
+    PharmaciResdto getPharmaciById(String id);
+    List<PharmaciResdto> getAllPharmaci();
+    void updatePharmaci(String id, PharmaciReqdto pharmaciReqdto);
+    void deletePharmaci(String id);
 }
