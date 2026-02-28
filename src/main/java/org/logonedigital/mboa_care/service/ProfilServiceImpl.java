@@ -184,8 +184,8 @@ public class ProfilServiceImpl implements ProfilService {
         patient.setEmail(patientReqDto.getEmail());
         patient.setTelephone(patientReqDto.getTelephone());
         patient.setPassword(patientReqDto.getPassword());
-        patient.getLocation().setVille(patient.getLocation().getVille());
-        patient.getLocation().setQuartier(patient.getLocation().getQuartier());
+        patient.getLocation().setVille(patientReqDto.getLocation().getVille());
+        patient.getLocation().setQuartier(patientReqDto.getLocation().getQuartier());
         patient.setUpdatedAt(LocalDate.now());
         profilRepo.saveAndFlush(patient);
     }
@@ -198,12 +198,13 @@ public class ProfilServiceImpl implements ProfilService {
         if (!(utilisateur instanceof Medecin medecin))
             throw new RoleException("Le utilisateur n'est pas un medecin");
 
-        medecin.setNomUtilisateur(utilisateur.getNomUtilisateur());
-        medecin.setEmail(utilisateur.getEmail());
-        medecin.setTelephone(utilisateur.getTelephone());
-        medecin.setPassword(utilisateur.getPassword());
-        medecin.getLocation().setVille(utilisateur.getLocation().getVille());
-        medecin.getLocation().setQuartier(utilisateur.getLocation().getQuartier());
+        medecin.setNomUtilisateur(medecinReqDto.getNomUtilisateur());
+        medecin.setEmail(medecinReqDto.getEmail());
+        medecin.setTelephone(medecinReqDto.getTelephone());
+        medecin.setPassword(medecinReqDto.getPassword());
+        medecin.setSpecialite(medecinReqDto.getSpecialite());
+        medecin.getLocation().setVille(medecinReqDto.getLocation().getVille());
+        medecin.getLocation().setQuartier(medecinReqDto.getLocation().getQuartier());
         medecin.setUpdatedAt(LocalDate.now());
         profilRepo.saveAndFlush(medecin);
     }

@@ -27,16 +27,17 @@ public class Medecin extends Utilisateur {
     }
 
     public Medecin(String nomUtilisateur,
-                   String telephone,
                    String email,
+                   String telephone,
                    String password,
                    String specialite, Location location) {
 
         this.setNomUtilisateur(nomUtilisateur);
-        this.setTelephone(telephone);
         this.setEmail(email);
+        this.setTelephone(telephone);
         this.setPassword(password);
         this.setLocation(location);
         this.setRole(Role.MEDECIN);
+        this.specialite = specialite;
     }
 }
