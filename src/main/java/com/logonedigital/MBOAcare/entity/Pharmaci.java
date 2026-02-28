@@ -37,11 +37,61 @@ public class Pharmaci {
     public Pharmaci() {
     }
 
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getQuartier() {
+        return quartier;
+    }
+
+    public void setQuartier(String quartier) {
+        this.quartier = quartier;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getIdPharmaci() {
+        return idPharmaci;
+    }
+
+    public void setIdPharmaci(String idPharmaci) {
+        this.idPharmaci = idPharmaci;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDate dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
     public Pharmaci(String nom, String ville, String quartier, String email) {
         this.nom = nom;
         this.ville = ville;
         this.quartier = quartier;
         this.email = email;
+
+
 
 
 
