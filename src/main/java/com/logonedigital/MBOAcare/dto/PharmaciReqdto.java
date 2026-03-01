@@ -3,6 +3,8 @@ package com.logonedigital.MBOAcare.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.util.List;
+
 public class PharmaciReqdto {
 
     @NotEmpty(message = "veuillez remplir ce champ")
@@ -20,6 +22,8 @@ public class PharmaciReqdto {
     @NotEmpty(message = "veuillez remplir ce champ")
 
     private String quartier ;
+
+    private List<StockReqdto> stocks;
 
     public String getVille() {
         return ville;
@@ -52,6 +56,8 @@ public class PharmaciReqdto {
     public void setNom(String nom) {
         this.nom = nom;
     }
+    public List<StockReqdto> getStocks() { return stocks; }
+    public void setStocks(List<StockReqdto> stocks) { this.stocks = stocks;}
 
     public PharmaciReqdto(String quartier, String ville, String email, String nom) {
         this.quartier = quartier;

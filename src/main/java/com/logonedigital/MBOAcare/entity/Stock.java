@@ -19,7 +19,7 @@ import java.util.List;
         private int quantite;
         private String nom;
 
-        @OneToMany (mappedBy = "stock" )
+        @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
         @JsonManagedReference
         private List<Medicament> medicaments = new ArrayList<>();
 
@@ -39,7 +39,26 @@ import java.util.List;
         this.nom = nom;
     }
 
-    public String getIdStock() {
+        public Stock(String idStock, int quantite, String nom, Pharmaci pharmaci) {
+            this.idStock = idStock;
+            this.quantite = quantite;
+            this.nom = nom;
+            this.pharmaci = pharmaci;
+        }
+        public Stock(String nom, int quantite, List<Medicament> medicaments) {
+            this.nom = nom;
+            this.quantite = quantite;
+            this.medicaments = medicaments != null ? medicaments : new ArrayList<>();
+            for (Medicament m : this.medicaments) {
+                m.setStock(this);
+                m.setPharmaci(this.pharmaci);
+            }
+        }
+
+        public Stock(String nom, String forme) {
+        }
+
+        public String getIdStock() {
         return idStock;
     }
 
@@ -62,6 +81,22 @@ import java.util.List;
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+        public Pharmaci getPharmaci() {
+            return pharmaci;
+        }
+
+        public void setPharmaci(Pharmaci pharmaci) {
+            this.pharmaci = pharmaci;
+        }
+
+        public List<Medicament> getMedicaments() {
+            return medicaments;
+        }
+
+        public void setMedicaments(List<Medicament> medicaments) {
+            this.medicaments = medicaments;
+        }
 
         public Stock() {
         }

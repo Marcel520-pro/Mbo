@@ -2,8 +2,10 @@ package com.logonedigital.MBOAcare.controller;
 
 import com.logonedigital.MBOAcare.dto.PharmaciReqdto;
 import com.logonedigital.MBOAcare.dto.PharmaciResdto;
+import com.logonedigital.MBOAcare.entity.Pharmaci;
 import com.logonedigital.MBOAcare.service.pharmaci.PharmaciService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,5 +52,25 @@ public class PharmaciController {
     public ResponseEntity<String> deletePharmaci(@PathVariable String idPharmaci) {
         this.pharmaciService.deletePharmaci(idPharmaci);
         return ResponseEntity.status(202).body("Pharmacie supprime avec succces!");
+    }
+
+    @GetMapping("/pagination")
+    public Page<PharmaciResdto> getPaginated(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String sortBy,
+            @RequestParam String direction
+    ) {
+        return pharmaciService.getPaginated(page, size, sortBy, direction);
+    }
+    //  Recherche pharmacie par nom de médicament
+    @GetMapping("/medicament/{nom}")
+    public List<Pharmaci> getPharmaciByMedicament(@PathVariable String nom) {
+        return pharmaciService.findPharmaciByMedicamentNom(nom);
+    }
+    //   nombre de médicaments par pharmacie
+    @GetMapping("/stats/medicaments-par-pharmacie")
+    public List<Object[]> medicamentParPharmaci() {
+        return pharmaciService.countMedicamentParPharmaci();
     }
 }

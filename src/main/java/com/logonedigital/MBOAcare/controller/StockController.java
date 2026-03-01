@@ -4,6 +4,7 @@ import com.logonedigital.MBOAcare.dto.StockReqdto;
 import com.logonedigital.MBOAcare.dto.StockResdto;
 import com.logonedigital.MBOAcare.service.stock.StockService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +50,15 @@ import java.util.List;
         public ResponseEntity<String> deleteStock(@PathVariable String idStock) {
             this.stockService.deleteStock(idStock);
             return ResponseEntity.status(202).body("Stock supprime avec succces!");
+        }
+
+        @GetMapping("/pagination")
+        public Page<StockResdto> getPaginated(
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "5") int size,
+                @RequestParam(defaultValue = "nom") String sortBy
+        ) {
+            return stockService.getPaginated(page, size, sortBy);
         }
     }
 

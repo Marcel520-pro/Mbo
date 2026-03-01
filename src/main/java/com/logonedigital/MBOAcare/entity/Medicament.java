@@ -25,15 +25,59 @@ public class Medicament {
 
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "pharmaci_id")
-    private Pharmaci pharmaci;
-
+    @JsonBackReference
+    private Stock stock;
 
     @ManyToOne
-    @JsonIgnore
-    private Stock stock;
+    @JsonBackReference
+    private Pharmaci pharmaci;
 
     public Medicament() {
     }
+
+    public String getIdMedicament() {
+        return idMedicament;
+    }
+
+    public void setIdMedicament(String idMedicament) {
+        this.idMedicament = idMedicament;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getForme() {
+        return forme;
+    }
+
+    public void setForme(String forme) {
+        this.forme = forme;
+    }
+
+    public Medicament( String nom , String forme) {
+        this.nom = nom;
+        this.forme = forme;
+
+    }
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
+    public Pharmaci getPharmaci() {
+        return pharmaci;
+    }
+
+    public void setPharmaci(Pharmaci pharmaci) {
+        this.pharmaci = pharmaci;
+    }
+
 }

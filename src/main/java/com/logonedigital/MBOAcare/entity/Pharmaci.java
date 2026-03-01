@@ -29,7 +29,7 @@ public class Pharmaci {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "pharmaci")
+    @OneToMany(mappedBy = "pharmaci", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Stock> stocks = new ArrayList<>();
 
@@ -84,16 +84,26 @@ public class Pharmaci {
     public void setDateCreation(LocalDate dateCreation) {
         this.dateCreation = dateCreation;
     }
+    public List<Stock> getStocks() {
+        return stocks;
+    }
 
-    public Pharmaci(String nom, String ville, String quartier, String email) {
+    public void setStocks(List<Stock> stocks) {
+        this.stocks = stocks;
+    }
+
+    public Pharmaci(String nom, String ville, String quartier, String email, List<Stock> stocks) {
         this.nom = nom;
         this.ville = ville;
         this.quartier = quartier;
         this.email = email;
-
-
-
+        this.dateCreation = LocalDate.now();
+        this.stocks = stocks != null ? stocks : new ArrayList<>();
+        for (Stock s : this.stocks) {
+            s.setPharmaci(this);
+        }
+    }
 
 
     }
-}
+
