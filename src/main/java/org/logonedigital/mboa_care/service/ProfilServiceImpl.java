@@ -11,6 +11,7 @@ import org.logonedigital.mboa_care.repository.ProfilRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,28 +21,40 @@ import java.util.List;
 @Service
 public class ProfilServiceImpl implements ProfilService {
     private final ProfilRepo profilRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public ProfilServiceImpl(ProfilRepo profilRepo) {
+    public ProfilServiceImpl(ProfilRepo profilRepo, PasswordEncoder passwordEncoder) {
         this.profilRepo = profilRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void ajouterPatient(PatientReqDto patientReqDto) {
-        if (profilRepo.existsByEmail(patientReqDto.getEmail()))
-            throw new ResourceExistException("L'email est déjà utilisé !");
 
+        // Vérification si l'email existe déjà
+        if (profilRepo.existsByEmail(patientReqDto.getEmail())) {
+            throw new ResourceExistException("L'email est déjà utilisé !");
+        }
+
+        // Création de la location
         Location location = Location.builder()
                 .ville(patientReqDto.getLocation().getVille())
                 .quartier(patientReqDto.getLocation().getQuartier())
                 .build();
+
+        // Création du patient avec mot de passe crypté
         Patient patient = new Patient(
                 patientReqDto.getNomUtilisateur(),
                 patientReqDto.getTelephone(),
                 patientReqDto.getEmail(),
-                patientReqDto.getPassword(),
+                passwordEncoder.encode(patientReqDto.getPassword()),
                 location
         );
+
+        // Définition de la date de création
         patient.setCreatedAt(LocalDate.now());
+
+        // Sauvegarde en base
         profilRepo.save(patient);
     }
 
@@ -59,7 +72,7 @@ public class ProfilServiceImpl implements ProfilService {
                 medecinReqDto.getNomUtilisateur(),
                 medecinReqDto.getEmail(),
                 medecinReqDto.getTelephone(),
-                medecinReqDto.getPassword(),
+                passwordEncoder.encode(medecinReqDto.getPassword()),
                 medecinReqDto.getSpecialite(),
                 location
         );
