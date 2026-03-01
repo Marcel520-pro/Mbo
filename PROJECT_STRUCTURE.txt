@@ -1,0 +1,121 @@
+================================
+MBOA_CARE - PROJECT STRUCTURE
+================================
+
+Added Security Components:
+─────────────────────────
+
+📦 src/main/java/org/logonedigital/mboa_care/
+│
+├── 🔐 security/
+│   ├── CustomUserDetailsService.java      [NEW] - User authentication service
+│   └── SecurityInitializer.java            [NEW] - Auto-create default user
+│
+├── controllers/
+│   ├── AuthController.java                 [NEW] - Login/Logout/Health endpoints
+│   ├── PatientController.java              [EXISTING]
+│   └── MedecinController.java              [EXISTING]
+│
+├── dto/
+│   ├── LoginDto.java                       [NEW] - Login request DTO
+│   ├── LoginResponseDto.java               [NEW] - Login response DTO
+│   ├── PatientReqDto.java                  [EXISTING]
+│   ├── PatientResDto.java                  [EXISTING]
+│   ├── MedecinReqDto.java                  [EXISTING]
+│   └── MedecinResDto.java                  [EXISTING]
+│
+├── entity/
+│   ├── Utilisateur.java                    [EXISTING]
+│   ├── Patient.java                        [MODIFIED] - Added @EqualsAndHashCode
+│   ├── Medecin.java                        [MODIFIED] - Added @EqualsAndHashCode
+│   ├── Role.java                           [EXISTING] - PATIENT, MEDECIN roles
+│   └── Location.java                       [EXISTING]
+│
+├── repository/
+│   └── ProfilRepo.java                     [MODIFIED] - Added findByEmail()
+│
+├── service/
+│   ├── ProfilService.java                  [EXISTING]
+│   └── ProfilServiceImpl.java               [EXISTING]
+│
+├── exception/
+│   ├── GlobalExceptionHandler.java         [EXISTING]
+│   ├── ResourceNotFoundException.java      [EXISTING]
+│   ├── ResourceExistException.java         [EXISTING]
+│   └── ErrorResponse.java                  [EXISTING]
+│
+├── SecurityConfig.java                     [MODIFIED] - Complete rewrite
+├── OpenApiConfig.java                      [EXISTING]
+└── MboaCareApplication.java                [EXISTING]
+
+─────────────────────────────────────────────────────────────
+
+📄 Documentation Files:
+──────────────────────
+
+├── README.md                               [EXISTING]
+├── HELP.md                                 [EXISTING]
+├── pom.xml                                 [EXISTING]
+│
+├── SECURITY_CONFIG.md                      [NEW] - Security configuration guide
+├── IMPLEMENTATION_REPORT.md                [NEW] - Detailed implementation report
+├── QUICK_REFERENCE.md                      [NEW] - Quick reference guide
+├── SPRING_SECURITY_SUMMARY.md              [NEW] - This summary
+└── PROJECT_STRUCTURE.txt                   [NEW] - File structure (this file)
+
+─────────────────────────────────────────────────────────────
+
+🔑 Authentication Flow:
+──────────────────────
+
+1. User sends POST /api/v1/auth/login with email & password
+2. AuthController receives request
+3. AuthenticationManager validates credentials
+4. CustomUserDetailsService loads user from database
+5. BCrypt compares passwords
+6. If valid → return user info + roles
+7. If invalid → return error message
+
+─────────────────────────────────────────────────────────────
+
+🛡️ Security Architecture:
+────────────────────────
+
+                    HTTP Request
+                         ↓
+                 ┌─────────────────┐
+                 │ AuthController  │
+                 │ POST /login     │
+                 └────────┬────────┘
+                          ↓
+              ┌───────────────────────┐
+              │ AuthenticationManager │
+              │ (Spring Security)     │
+              └────────┬──────────────┘
+                       ↓
+        ┌──────────────────────────────────┐
+        │ CustomUserDetailsService         │
+        │ (Loads user from database)       │
+        └────────┬───────────────────────┘
+                 ↓
+    ┌───────────────────────────────────┐
+    │ ProfilRepo                        │
+    │ MySQL Database                    │
+    │ Utilisateur/Patient/Medecin table │
+    └───────────────────────────────────┘
+
+─────────────────────────────────────────────────────────────
+
+📊 Default User:
+──────────────
+
+Email:      jerry@mboacare.com
+Password:   06jan2008
+Role:       PATIENT
+City:       Douala
+District:   Akwa
+Created:    Auto-created on first run
+
+─────────────────────────────────────────────────────────────
+
+✅ All Components Implemented & Tested

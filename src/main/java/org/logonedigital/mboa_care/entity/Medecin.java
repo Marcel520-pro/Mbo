@@ -3,6 +3,7 @@ package org.logonedigital.mboa_care.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn(name = "id_utilisateur")
 public class Medecin extends Utilisateur {
     private String specialite;

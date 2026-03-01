@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -13,8 +14,13 @@ import java.time.LocalDate;
 @Entity
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @PrimaryKeyJoinColumn(name = "id_utilisateur")
 public class Patient extends Utilisateur{
+    private String groupSanguin;
+    private String antecedents;
+    private String traitement;
+    private String allergies;
     public Patient(String nomUtilisateur, String email,
                    String telephone, String password, Location location,
                    Role role, LocalDate createdAt, LocalDate updatedAt) {
