@@ -21,6 +21,7 @@ public abstract class Utilisateur {
     private String telephone;
     private LocalDate createdAt =  LocalDate.now()  ;
 
-    @OneToOne
+    @OneToOne(cascade =  CascadeType.ALL)
+    @JoinColumn(name = "idLocation")
     private Location location;
 }

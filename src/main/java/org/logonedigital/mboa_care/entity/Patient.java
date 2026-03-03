@@ -10,7 +10,6 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 public class Patient extends Utilisateur{
-
     private String allergies;
     private String groupSanguin;
     private String antecedents;

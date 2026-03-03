@@ -19,34 +19,34 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @PostMapping
+    @PostMapping("create_patient")
     public ResponseEntity<String> ajouterPatient(@RequestBody PatientReqDto patientReqDto) {
         patientService.ajouterPatient(patientReqDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Patient created successfully");
+        return ResponseEntity.status(200).body("Patient created successfully");
     }
 
-    @GetMapping("/{idUtilisateur}")
+    @GetMapping("/get_patient{idUtilisateur}")
     public ResponseEntity<PatientResDto> consulterPatient(@PathVariable String idUtilisateur) {
-        return ResponseEntity.ok(patientService.consulterPatient(idUtilisateur));
+        return ResponseEntity.status(200).body(patientService.consulterPatient(idUtilisateur));
     }
 
-    @GetMapping
+    @GetMapping("/get_all_patients")
     public ResponseEntity<Page<PatientResDto>> getAllPatients(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(patientService.getAllPatients(pageable));
+        return ResponseEntity.status(200).body(patientService.getAllPatients(pageable));
     }
 
-    @DeleteMapping("/{idUtilisateur}")
+    @DeleteMapping("/delete_patient{idUtilisateur}")
     public ResponseEntity<String> supprimerPatient(@PathVariable String idUtilisateur) {
         patientService.supprimerPatient(idUtilisateur);
-        return ResponseEntity.ok("Patient deleted successfully");
+        return ResponseEntity.status(200).body("Patient deleted successfully");
     }
 
-    @PutMapping
+    @PutMapping("modify_patient{idUtilisateur}")
     public ResponseEntity<String> modifierPatient(@RequestBody PatientReqDto patientReqDto) {
         patientService.modifierPatient(patientReqDto);
-        return ResponseEntity.ok("Patient updated successfully");
+        return ResponseEntity.status(200).body("Patient updated successfully");
     }
 }

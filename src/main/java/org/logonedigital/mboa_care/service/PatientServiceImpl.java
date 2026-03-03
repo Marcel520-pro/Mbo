@@ -5,6 +5,7 @@ import org.logonedigital.mboa_care.dto.PatientResDto;
 import org.logonedigital.mboa_care.dto.LocationDto;
 import org.logonedigital.mboa_care.entity.Location;
 import org.logonedigital.mboa_care.entity.Patient;
+import org.logonedigital.mboa_care.exception.ResourceExistException;
 import org.logonedigital.mboa_care.exception.ResourceNotFoundException;
 import org.logonedigital.mboa_care.repository.PatientRepo;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,9 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void ajouterPatient(PatientReqDto patientReqDto) {
+        if (patientRepo.existsByEmail(patientReqDto.getEmail())) {
+            throw new ResourceExistException("email existente");
+        }
         Location location = new Location();
         location.setVille(patientReqDto.getLocationDto().getVille());
         location.setQuartier(patientReqDto.getLocationDto().getQuartier());
@@ -85,7 +89,7 @@ public class PatientServiceImpl implements PatientService {
                 .nom(patient.getNom())
                 .email(patient.getEmail())
                 .telephone(patient.getTelephone())
-                .locationDto(locationDto)
+                .location(locationDto)
                 .build();
     }
 }
