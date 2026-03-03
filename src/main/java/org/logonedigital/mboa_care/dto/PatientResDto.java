@@ -4,17 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.logonedigital.mboa_care.entity.Role;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PatientResDto {
     private String idUtilisateur;
-    private String nomUtilisateur;
+    private String nom;
     private String email;
     private String telephone;
-    private Role role;
-    private LocationDto location;
+    private LocationDto locationDto;
 }

@@ -1,28 +1,22 @@
 package org.logonedigital.mboa_care.dto;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.logonedigital.mboa_care.entity.Location;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PatientReqDto {
-    @NotEmpty(message = "nom obligatoire ")
-    private String nomUtilisateur;
-    @Email(message = "le format de l'email est incorrect")
-    @NotEmpty(message = "email obligatoire")
+    private String nom;
     private String email;
-    @NotEmpty(message = "numero de telephone obligatoire")
-    private String telephone;
-    @NotEmpty(message = "mot de passe obligatoire")
     private String password;
-    @Valid
-    @NotEmpty(message = "localisation obligatoire")
-    private LocationDto location;
+    private String telephone;
+    private String allergies;
+    private String groupSanguin;
+    private String antecedents;
+    private LocationDto locationDto;
 }

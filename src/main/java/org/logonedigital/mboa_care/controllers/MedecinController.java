@@ -2,71 +2,62 @@ package org.logonedigital.mboa_care.controllers;
 
 import org.logonedigital.mboa_care.dto.MedecinReqDto;
 import org.logonedigital.mboa_care.dto.MedecinResDto;
-import org.logonedigital.mboa_care.dto.PatientReqDto;
-import org.logonedigital.mboa_care.service.ProfilService;
+import org.logonedigital.mboa_care.service.MedecinService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("ap1/v1/profil-utilisateur")
+@RequestMapping("/api/medecins")
 public class MedecinController {
-    private final ProfilService profilService;
+    private final MedecinService medecinService;
 
-    public MedecinController(ProfilService profilService) {
-        this.profilService = profilService;
+    public MedecinController(MedecinService medecinService) {
+        this.medecinService = medecinService;
     }
 
-    @PostMapping(path = "/create_medecin")
-    ResponseEntity<String> createMedecin(@RequestBody MedecinReqDto medecinReqDto) {
-        this.profilService.ajouterMedecin(medecinReqDto);
-        return ResponseEntity.status(201).body("Medecin created successfully");
+    @PostMapping
+    public ResponseEntity<String> ajouterMedecin(@RequestBody MedecinReqDto medecinReqDto) {
+        medecinService.ajouterMedecin(medecinReqDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Medecin created successfully");
     }
 
-    @GetMapping(path = "/get_medecin_by_id{idUtilisateur}")
-    ResponseEntity<MedecinResDto> getMedecinById(@PathVariable("idUtilisateur") String idUtilisateur) {
-        return ResponseEntity.status(200).body(this.profilService.consulterMedecin(idUtilisateur));
+    @DeleteMapping("/{idUtilisateur}")
+    public ResponseEntity<String> supprimerMedecin(@PathVariable String idUtilisateur) {
+        medecinService.supprimerMedecin(idUtilisateur);
+        return ResponseEntity.ok("Medecin deleted successfully");
     }
 
-    @GetMapping(path = "/liste_medecins")
-    ResponseEntity<Page<MedecinResDto>> getAllMedecins(
+    @GetMapping
+    public ResponseEntity<Page<MedecinResDto>> listerMedecin(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        return ResponseEntity.status(200).body(this.profilService.listerMedecin(page, size));
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(medecinService.listerMedecin(page, size));
     }
 
-    @DeleteMapping(path = "/delete_profile")
-    ResponseEntity<String> deleteProfil(@RequestParam("idUtilisateur") String idUtilisateur) {
-        this.profilService.supprimerProfil(idUtilisateur);
-        return ResponseEntity.status(200).body("Profil has been deleted successfully");
+    @PutMapping("/{idUtilisateur}")
+    public ResponseEntity<String> modifierMedecin(
+            @PathVariable String idUtilisateur,
+            @RequestBody MedecinReqDto medecinReqDto) {
+        medecinService.modifierMedecin(idUtilisateur, medecinReqDto);
+        return ResponseEntity.ok("Medecin updated successfully");
     }
 
-
-
-    @PatchMapping(path = "/modify_medecin{idUtilisateur}")
-    ResponseEntity<String> modifyMedecin(@PathVariable String idUtilisateur,@RequestBody MedecinReqDto medecinReqDto) {
-        this.profilService.modifierMedecin(idUtilisateur,medecinReqDto);
-        return ResponseEntity.status(200).body("Medecin modification has been successful");
+    @GetMapping("/specialite/{specialite}")
+    public ResponseEntity<Page<MedecinResDto>> rechercherParSpecialite(
+            @PathVariable String specialite,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(medecinService.rechercherParSpecialite(specialite, page, size));
     }
 
-    @GetMapping(path = "/recherche_medecin_par_specialite")
-    ResponseEntity<Page<MedecinResDto>> rechercheMedecinParSpecialite(
-            @RequestParam int page,
-            @RequestParam int size,
-            @RequestParam String specialite
-    ){
-        return ResponseEntity.status(200).body(this.profilService.rechercherParSpecialite(specialite, page, size));
+    @GetMapping("/specialite/{specialite}/ville/{ville}")
+    public ResponseEntity<Page<MedecinResDto>> rechercheSpecialisteVille(
+            @PathVariable String specialite,
+            @PathVariable String ville,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(medecinService.rechercheSpecialisteVille(specialite, ville, page, size));
     }
-
-    @GetMapping(path = "/recherche_specialiste_par_ville")
-    ResponseEntity<Page<MedecinResDto>> rechercheSpecialisteParVille(
-            @RequestParam int page,
-            @RequestParam int size,
-            @RequestParam String specialite,
-            @RequestParam String ville
-    ){
-        return ResponseEntity.status(200).body(this.profilService.rechercheSpecialisteVille(specialite, ville, page, size));
-    }
-
 }

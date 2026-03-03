@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Embeddable
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "locations")
 public class Location {
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private String idLocation;
     private String ville;
     private String quartier;
 }
