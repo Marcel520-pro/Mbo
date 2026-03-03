@@ -13,7 +13,6 @@ import org.logonedigital.mboa_care.entity.Location;
 public class PatientReqDto {
     private String nom;
     private String email;
-    private String password;
     private String telephone;
     private String allergies;
     private String groupSanguin;

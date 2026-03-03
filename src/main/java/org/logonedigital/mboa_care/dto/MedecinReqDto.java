@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class MedecinReqDto {
     private String nom;
     private String email;
-    private String password;
     private String telephone;
     private String specialite;
     private LocationDto location;

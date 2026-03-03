@@ -32,7 +32,6 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = new Patient();
         patient.setNom(patientReqDto.getNom());
         patient.setEmail(patientReqDto.getEmail());
-        patient.setPassword(patientReqDto.getPassword());
         patient.setTelephone(patientReqDto.getTelephone());
         patient.setGroupSanguin(patientReqDto.getGroupSanguin());
         patient.setAllergies(patientReqDto.getAllergies());

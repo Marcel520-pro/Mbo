@@ -32,7 +32,6 @@ public class MedecinServiceImpl implements MedecinService {
         Medecin medecin = new Medecin();
         medecin.setNom(medecinReqDto.getNom());
         medecin.setEmail(medecinReqDto.getEmail());
-        medecin.setPassword(medecinReqDto.getPassword());
         medecin.setTelephone(medecinReqDto.getTelephone());
         medecin.setSpecialite(medecinReqDto.getSpecialite());
         medecin.setDisponible(true);

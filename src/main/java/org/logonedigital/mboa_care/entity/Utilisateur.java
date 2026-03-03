@@ -19,11 +19,7 @@ public abstract class Utilisateur {
     private String nom;
     private String email;
     private String telephone;
-    private String password;
     private LocalDate createdAt =  LocalDate.now()  ;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     @OneToOne
     private Location location;
