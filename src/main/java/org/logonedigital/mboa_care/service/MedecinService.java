@@ -2,8 +2,6 @@ package org.logonedigital.mboa_care.service;
 
 import org.logonedigital.mboa_care.dto.MedecinReqDto;
 import org.logonedigital.mboa_care.dto.MedecinResDto;
-import org.logonedigital.mboa_care.dto.PatientReqDto;
-import org.logonedigital.mboa_care.dto.PatientResDto;
 import org.springframework.data.domain.Page;
 
 public interface MedecinService {

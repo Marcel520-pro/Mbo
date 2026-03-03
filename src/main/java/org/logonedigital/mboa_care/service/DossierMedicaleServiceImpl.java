@@ -1,12 +1,15 @@
 package org.logonedigital.mboa_care.service;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
 import org.logonedigital.mboa_care.dto.DossierMedicaleDto;
+import org.logonedigital.mboa_care.entity.HistoriqueDossier;
 import org.logonedigital.mboa_care.entity.Patient;
 import org.logonedigital.mboa_care.exception.ResourceNotFoundException;
 import org.logonedigital.mboa_care.repository.HistoriqueRepo;
@@ -21,17 +24,13 @@ import java.time.LocalDate;
 
 @Service
 public class DossierMedicaleServiceImpl implements DossierMedicaleService {
-    private final PatientService patientService;
     private final PatientRepo  patientRepo;
     private final HistoriqueRepo  historiqueRepo;
-    private final DossierMedicaleService dossierMedicaleService;
 
 
-    public DossierMedicaleServiceImpl(PatientService patientService, PatientRepo patientRepo, HistoriqueRepo historiqueRepo, DossierMedicaleService dossierMedicaleService) {
-        this.patientService = patientService;
+    public DossierMedicaleServiceImpl(PatientRepo patientRepo, HistoriqueRepo historiqueRepo) {
         this.patientRepo = patientRepo;
         this.historiqueRepo = historiqueRepo;
-        this.dossierMedicaleService = dossierMedicaleService;
     }
 
     @Override
@@ -60,6 +59,18 @@ public class DossierMedicaleServiceImpl implements DossierMedicaleService {
             document.add(new Paragraph("Antecedents: " + patient.getAntecedents(), normalFont));
 
             document.close();
+            
+            // Save to history
+            HistoriqueDossier history = HistoriqueDossier.builder()
+                    .idPatient(idUtilisateur)
+                    .nom(patient.getNom())
+                    .email(patient.getEmail())
+                    .telephone(patient.getTelephone())
+                    .groupSanguin(patient.getGroupSanguin())
+                    .antecedents(patient.getAntecedents())
+                    .dateTelechargement(LocalDate.now())
+                    .build();
+            historiqueRepo.save(history);
 
             return baos.toByteArray();
         }
@@ -78,21 +89,31 @@ public class DossierMedicaleServiceImpl implements DossierMedicaleService {
                         .telephone(h.getTelephone())
                         .groupSanguin(h.getGroupSanguin())
                         .antecedents(h.getAntecedents())
-                        .dateCreation(LocalDate.now())
+                        .dateCreation(h.getDateTelechargement())
                         .build());
     }
 
     @Override
     public byte[] genererQrCode(String idUtilisateur) {
-        try{
+        try {
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             var bitMatrix = qrCodeWriter.encode(
-                    "https://localhost:8080/api/v1/dossier" + idUtilisateur,
-                    BarcodeFormat
-            )
+                    "https://localhost:8080/api/v1/dossier/" + idUtilisateur,
+                    BarcodeFormat.QR_CODE,
+                    300,
+                    300
+            );
+            
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", baos);
+            return baos.toByteArray();
         }
-        catch (Exception e){
+        catch (WriterException e) {
+            throw new RuntimeException("QR code generation failed", e);
+        }
+        catch (Exception e) {
             throw new ResourceNotFoundException("QR code generation failed");
         }
     }
 }
+

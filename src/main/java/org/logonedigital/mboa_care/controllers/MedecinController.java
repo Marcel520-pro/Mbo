@@ -4,7 +4,6 @@ import org.logonedigital.mboa_care.dto.MedecinReqDto;
 import org.logonedigital.mboa_care.dto.MedecinResDto;
 import org.logonedigital.mboa_care.service.MedecinService;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

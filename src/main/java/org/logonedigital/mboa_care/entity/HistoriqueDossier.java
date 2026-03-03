@@ -19,7 +19,12 @@ import java.time.LocalDate;
 public class HistoriqueDossier {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String idDossier;
-    private String idUtilisateur;
+    private String idPatient;
+    private String nom;
+    private String email;
+    private String telephone;
+    private String groupSanguin;
+    private String antecedents;
     private LocalDate dateTelechargement;
 
 }
