@@ -1,34 +1,37 @@
 package org.logonedigital.mboa_care.entity;
 
-import ch.qos.logback.core.status.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.logonedigital.mboa_care.entity.StatutConsultation;
 
 import java.time.LocalDateTime;
 
-@Data
-@Builder
+@Entity
+@Table(name = "teleconsultation")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "consultations")
+@Builder
 public class Teleconsultation {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String idConsultation;
-    private LocalDateTime consultationDate;
-    @Column(length = 100, nullable = false)
-    private String motif;
+
+    private LocalDateTime dateConsultation;
+
+    private LocalDateTime dateCreation;
+
+    private LocalDateTime dateDebut;
+
+    private LocalDateTime dateFin;
+
     @Enumerated(EnumType.STRING)
-    private Statut status;
+    private StatutConsultation statut;
 
-    @ManyToOne
-    @JoinColumn(name = "idPatient", nullable = false)
-    private Utilisateur patient;
+    @Column(columnDefinition = "TEXT")
+    private String motif;
 
-    @ManyToOne
-    @JoinColumn(name = "idMedecin", nullable = false)
-    private Utilisateur medecin;
+    private String emailDestinataire;
 }

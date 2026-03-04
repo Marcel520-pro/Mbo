@@ -1,17 +1,18 @@
 package org.logonedigital.mboa_care.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ConsultationResDto {
-    private String idConsultation;
+public class TeleconsultationRequestDto {
     private LocalDateTime dateConsultation;
     private String motif;
-    private String statut;
-    private String nomPatient;
-    private String nomMedecin;
+    private String emailDestinataire;
 }
