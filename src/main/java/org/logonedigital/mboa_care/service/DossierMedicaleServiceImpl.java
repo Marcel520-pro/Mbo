@@ -17,6 +17,7 @@ import org.logonedigital.mboa_care.repository.PatientRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
@@ -96,9 +97,14 @@ public class DossierMedicaleServiceImpl implements DossierMedicaleService {
     @Override
     public byte[] genererQrCode(String idUtilisateur) {
         try {
+            String url = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("api/v1/dossier")
+                    .path(idUtilisateur)
+                    .toUriString();
+
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             var bitMatrix = qrCodeWriter.encode(
-                    "https://localhost:8080/api/v1/dossier/" + idUtilisateur,
+                    url,
                     BarcodeFormat.QR_CODE,
                     300,
                     300
